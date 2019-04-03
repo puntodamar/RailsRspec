@@ -26,12 +26,12 @@ describe Article, type: :model do
             expect(article.errors.messages[:slug]).to include("can't be blank")
         end
     
-        # it "should validate uniqueness of the slug" do
-        #     article         = create :article
-        #     invalid_article = build :article, slug: article.slug
-        #     expect(invalid_article).not_to be_valid
-        # end
-        #
+        it "should validate uniqueness of the slug" do
+            article         = create :article
+            invalid_article = build :article, slug: article.slug
+            expect(invalid_article).not_to be_valid
+        end
+
     end
     
     describe ".recent" do
