@@ -5,7 +5,7 @@ describe User, type: :model do
         
         it "should have valid factory" do
           user = build :user
-          expect(uiser).to be_valid
+          expect(user).to be_valid
         end
         
         it "should validate presence of attributes" do
