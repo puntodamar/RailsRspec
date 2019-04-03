@@ -4,7 +4,7 @@ class V1::ArticlesController < ApplicationController
     
     def index
 
-        articles = Article.recent
+        articles = Article.recent.page(params[:page]).per(params[:per_page])
         render json: articles
 
         # @articles = Article.all
@@ -18,6 +18,6 @@ class V1::ArticlesController < ApplicationController
     private
     
     def set_params
-        params.permit(:title, :content, :slug)
+        params.permit(:title, :content, :slug, :page, :per_page)
     end
 end
