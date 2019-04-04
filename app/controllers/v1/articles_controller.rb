@@ -20,7 +20,7 @@ class V1::ArticlesController < ApplicationController
     def create
         article = Article.new(article_params)
         if article.valid?
-            article.save
+            article.save!
             render json: article, status: :created
         else
             render json:        article,
@@ -28,6 +28,18 @@ class V1::ArticlesController < ApplicationController
                    serializer:  ActiveModel::Serializer::ErrorSerializer,
                    status:      :unprocessable_entity
         end
+    end
+    
+    def update
+        article = Article.find(params[:id])
+        article.update_attributes!(article_params)
+        render json: article, status: :ok
+        
+    rescue
+        render json:        article,
+               adapter:     :json_api,
+               serializer:  ActiveModel::Serializer::ErrorSerializer,
+               status:      :unprocessable_entity
     end
     
     private
