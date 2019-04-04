@@ -20,6 +20,8 @@ class V1::ArticlesController < ApplicationController
     def create
         article = Article.new(article_params)
         if article.valid?
+            article.save
+            render json: article, status: :created
         else
             render json:        article,
                    adapter:     :json_api,
@@ -31,7 +33,7 @@ class V1::ArticlesController < ApplicationController
     private
     
     def article_params
-        ActionController::Parameters.new
+        params.require(:data).require(:attributes).permit(:title, :content,:slug) || ActionController::Parameters.new
         # params.permit(:title, :content, :slug, :page, :per_page)
     end
 end
