@@ -2,26 +2,6 @@ require 'rails_helper'
 
 describe V1::AccessTokensController, type: :controller do
     describe "POST #create" do
-        shared_examples_for "unauthorized_requests" do
-            let(:authentication_error) do
-                {
-                    "status"    => "401",
-                    "source"    => {"pointer" => "/code"},
-                    "title"     => "Authentication code is invalid",
-                    "details"   => "You must provide valid code in order to exchange it for token."
-                }
-            end
-
-            it "should return 401 status code" do
-                subject
-                expect(response).to have_http_status(401)
-            end
-
-            it "should return proper error body" do
-                subject
-                expect(json["error"]).to include(authentication_error)
-            end
-        end
         
         context "when no code provided" do
             subject {post :create}
@@ -80,29 +60,12 @@ describe V1::AccessTokensController, type: :controller do
     end
 
     describe "DELETE #destroy" do
+        
         context "when invalid request" do
-    
-            let(:authorization_error) do
-                {
-                    "status"    => "403",
-                    "source"    => {"pointer" => "/headers/authorization"},
-                    "title"     => "Not authorized",
-                    "details"   => "You have no right to access this resource."
-                }
-            end
-            
             subject{ delete :destroy}
-    
-            it "should return 403 status code" do
-                subject
-                expect(response).to have_http_status(403)
-            end
-    
-            it "should return proper error body" do
-                subject
-                expect(json["errors"]).to include(authorization_error)
-            end
-            
+            it_should_behave_like "forbidden_requests"
+
+        
         end
         
         context "when valid request" do
