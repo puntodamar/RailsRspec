@@ -14,25 +14,11 @@ class UserAuthenticator
         raise AuthenticationError if token.try(:error).present?
 
         prepare_user
-        @access_token = if user.access_token.present?
-             user.access_token
-
+        
+        if user.access_token.present?
+            @access_token = user.access_token
         else
-             user.create_access_token
-         end
-        
-        
-        # if token.try(:error).present?
-        #     raise AuthenticationError
-        # else
-        #     prepare_user
-        #     @access_token = if user.access_token.present?
-        #          user.access_token
-        #
-        #     else
-        #          user.create_access_token
-        #      end
-        # end
+             user.create_access_token end
     end
     
     private
@@ -55,10 +41,10 @@ class UserAuthenticator
     end
     
     def prepare_user
-        @user = if User.exists?(login: user_data[:login])
-                    User.find_by(login: user_data[:login])
-                else
-                    User.create!(user_data.merge(provider: 'github'))
-                end
+        if User.exists?(login: user_data[:login])
+            @user = User.find_by(login: user_data[:login])
+        else
+            User.create!(user_data.merge(provider: 'github'))
+        end
     end
 end
