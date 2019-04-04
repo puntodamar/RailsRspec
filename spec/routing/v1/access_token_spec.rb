@@ -6,6 +6,6 @@ describe "access token routes", type: :routing do
     end
     
     it "should route to access_tokens destroy action" do
-        expect(delete '/v1/logout').to route_to('access_tokens#destroy', :format => :json)
+        expect(delete '/v1/logout').to route_to('v1/access_tokens#destroy', :format => :json)
     end
 end
