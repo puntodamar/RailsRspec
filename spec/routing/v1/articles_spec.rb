@@ -18,5 +18,8 @@ describe "article routes", type: :routing do
         expect(patch '/v1/articles/1').to route_to('v1/articles#update',   id: '1', :format => :json)
     end
     
+    it "should route to articles destroy" do
+        expect(delete '/v1/articles/1').to route_to('v1/articles#destroy', id: '1', :format => :json)
+    end
     
 end
