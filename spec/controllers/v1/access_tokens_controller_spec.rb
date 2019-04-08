@@ -3,9 +3,9 @@ require 'rails_helper'
 describe V1::AccessTokensController, type: :controller do
     describe "POST #create" do
         
-        context "when no code provided" do
+        context "when no auth data provided" do
             subject {post :create}
-            it_behaves_like "unauthorized_requests"
+            it_behaves_like "unauthorized_standard_requests"
         end
 
         context "when invalid code provided" do
@@ -20,7 +20,7 @@ describe V1::AccessTokensController, type: :controller do
             end
             
             subject {post :create, params: {code: 'invalid code'}}
-            it_behaves_like "unauthorized_requests"
+            it_behaves_like "unauthorized_oauth_requests"
         end
         
         context "when valid request" do
